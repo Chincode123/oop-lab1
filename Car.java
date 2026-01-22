@@ -57,11 +57,15 @@ public abstract class Car implements Movable {
     }
 
     public void gas(double amount) {
-        incrementSpeed(amount);
+        double old_speed = currentSpeed;
+        incrementSpeed(Math.clamp(amount, 0, 1));
+        currentSpeed = Math.clamp(currentSpeed, old_speed, enginePower);
     }
 
     public void brake(double amount) {
-        decrementSpeed(amount);
+        double old_speed = currentSpeed;
+        decrementSpeed(Math.clamp(amount, 0, 1));
+        currentSpeed = Math.clamp(currentSpeed, 0, old_speed);
     }
 
     public int getNrDoors(){

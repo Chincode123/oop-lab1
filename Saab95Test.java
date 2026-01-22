@@ -57,13 +57,13 @@ class Saab95Test {
 
     @Test
     void testSpeed() {
-        saab95.gas(100);
+        for (int i = 0; i < 100; i++) saab95.gas(1);
         assertEquals(saab95.getEnginePower(), saab95.getCurrentSpeed());
-        
-        saab95.brake(50);
+
+        for (int i = 0; i < 100; i++) saab95.brake(.5);
         assertEquals(saab95.getEnginePower() / 2, saab95.getCurrentSpeed());
 
-        saab95.brake(50);
+        for (int i = 0; i < 100; i++) saab95.brake(.5);
         assertEquals(0, saab95.getCurrentSpeed());
     }
 }

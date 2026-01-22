@@ -38,13 +38,13 @@ class Volvo240Test {
         volvo240.gas(1);
         assertEquals(1.25, volvo240.getCurrentSpeed());
 
-        volvo240.gas(9001);
+        for (int i = 0; i < 9001; i++) volvo240.gas(1);
         assertEquals(volvo240.getEnginePower(), volvo240.getCurrentSpeed());
 
-        volvo240.brake(20);
+        for (int i = 0; i < 20; i++) volvo240.brake(1);
         assertEquals(volvo240.getEnginePower() - 25, volvo240.getCurrentSpeed());
 
-        volvo240.brake(9001);
+        for (int i = 0; i < 9001; i++) volvo240.brake(1);
         assertEquals(0, volvo240.getCurrentSpeed());
     }
 }

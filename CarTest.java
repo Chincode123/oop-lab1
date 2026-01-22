@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +13,7 @@ class CarTest {
     static final class TestCar extends Car {
 
         public TestCar() {
-            super("TestCar", Color.cyan, 0, 0);
+            super("TestCar", Color.cyan, 10, 0);
         }
 
         void incrementSpeed(double amount) {
@@ -43,7 +44,7 @@ class CarTest {
 
     @Test
     void testEnginePower() {
-        assertEquals(0, car.getEnginePower());
+        assertEquals(10, car.getEnginePower());
     }
 
     @Test
@@ -134,5 +135,36 @@ class CarTest {
         car.move();
         assertEquals(3.12, car.getPosition().x, 0.01);
         assertEquals(-0.71, car.getPosition().y, 0.01);
+    }
+
+    @Test
+    void testGasBrakeRange() {
+        car.gas(10);
+        assertEquals(1, car.getCurrentSpeed());
+
+        car.brake(10);
+        assertEquals(0, car.getCurrentSpeed());
+
+        car.gas(-1);
+        assertEquals(0, car.getCurrentSpeed());
+
+        car.brake(-1);
+        assertEquals(0, car.getCurrentSpeed());
+    }
+
+    @Test
+    void goFast() {
+        for (int i = 0; i < 1000; i++) car.gas(1);
+    }
+
+    @Test
+    void goBack() {
+        for (int i = 0; i < 1000; i++) car.brake(1);
+    }
+
+    @AfterEach
+    void checkSpeed() {
+        assertTrue(car.getCurrentSpeed() >= 0);
+        assertTrue(car.getCurrentSpeed() <= car.getEnginePower());
     }
 }
