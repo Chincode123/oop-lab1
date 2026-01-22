@@ -9,6 +9,13 @@ public abstract class Car implements Movable {
     Point position;
     double angle;
 
+    public Car(String modelName, Color color, double enginePower, int nrDoors) {
+        this.modelName = modelName;
+        this.color = color;
+        this.enginePower = enginePower;
+        this.nrDoors = nrDoors;
+    }
+
     public void move() {
         position.translate(
                 (int)(currentSpeed * Math.cos(angle)),
