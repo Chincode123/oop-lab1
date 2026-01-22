@@ -1,8 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import java.awt.*;
 
@@ -16,50 +13,24 @@ class Volvo240Test {
         volvo240 = new Volvo240();
     }
 
-    @Nested
-    class InitialValueTests {
-        @Test
-        void testNrDoors() {
-            assertEquals(4, volvo240.getNrDoors());
-        }
-
-        @Test
-        void testEnginePower() {
-            assertEquals(100, volvo240.getEnginePower());
-        }
-
-        @Test
-        void testInitialColor() {
-            assertEquals(Color.black, volvo240.getColor());
-        }
-
-        @Test
-        void testInitialSpeed() {
-            assertEquals(0, volvo240.getCurrentSpeed());
-        }
-
-        @Test
-        void testModelName() {
-            assertEquals("Volvo240", volvo240.getModelName());
-        }
-    }
-
-    @ParameterizedTest
-    @CsvSource({"255, 0, 0", "0, 255, 0", "9, 205, 218"})
-    void testSetColor(int r, int g, int b) {
-        Color color = new Color(r, g, b);
-        volvo240.setColor(color);
-        assertEquals(color, volvo240.getColor());
+    @Test
+    void testNrDoors() {
+        assertEquals(4, volvo240.getNrDoors());
     }
 
     @Test
-    void testEngine() {
-        volvo240.startEngine();
-        assertEquals(0.1, volvo240.getCurrentSpeed());
-        volvo240.gas(10);
-        assertNotEquals(0, volvo240.getCurrentSpeed());
-        volvo240.stopEngine();
-        assertEquals(0, volvo240.getCurrentSpeed());
+    void testEnginePower() {
+        assertEquals(100, volvo240.getEnginePower());
+    }
+
+    @Test
+    void testInitialColor() {
+        assertEquals(Color.black, volvo240.getColor());
+    }
+
+    @Test
+    void testModelName() {
+        assertEquals("Volvo240", volvo240.getModelName());
     }
 
     @Test

@@ -1,12 +1,21 @@
 import java.awt.*;
 
 public abstract class Car implements Movable {
+    public static class Position {
+        public double x, y;
+
+        public Position() {
+            x = 0;
+            y = 0;
+        }
+    }
+
     int nrDoors;
     double enginePower;
     double currentSpeed;
     Color color;
     String modelName;
-    Point position;
+    Position position;
     double angle;
 
     public Car(String modelName, Color color, double enginePower, int nrDoors) {
@@ -14,22 +23,37 @@ public abstract class Car implements Movable {
         this.color = color;
         this.enginePower = enginePower;
         this.nrDoors = nrDoors;
+        this.position = new Position();
     }
 
     public void move() {
-        position.translate(
-                (int)(currentSpeed * Math.cos(angle)),
-                (int)(currentSpeed * Math.sin(angle)));
+        position.x += currentSpeed * Math.cos(angle);
+        position.y += currentSpeed * Math.sin(angle);
+    }
+
+    private double normalizeAngle(double angle) {
+        while (angle >= 2 * Math.PI) angle -= 2 * Math.PI;
+        while (angle < 0) angle += 2 * Math.PI;
+        if (angle >= 2 * Math.PI - 0.01) angle = 0;
+        return angle;
     }
 
     public void turnLeft() {
         angle += Math.PI / 8;
-        angle %= Math.PI * 2;
+        angle = normalizeAngle(angle);
     }
 
     public void turnRight() {
         angle -= Math.PI / 8;
-        angle %= Math.PI * 2;
+        angle = normalizeAngle(angle);
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public void gas(double amount) {
