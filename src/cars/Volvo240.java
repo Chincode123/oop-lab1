@@ -2,7 +2,7 @@ package cars;
 import java.awt.*;
 
 /**
- * Volvo240
+ * A class representing a Volvo 240 car
  */
 public class Volvo240 extends  Car{
 
@@ -16,7 +16,7 @@ public class Volvo240 extends  Car{
      * Instantiates a new <em>black</em> Volvo240, with <em>four</em> doors and an engine power of 100
      */
     public Volvo240(){
-        super("Volvo240", Color.black, 100, 4);
+        super("Volvo240", Color.black, 100, 4, Math.PI / 10);
     }
 
     /**

@@ -15,7 +15,7 @@ class CarTest {
     static final class TestCar extends Car {
 
         public TestCar() {
-            super("TestCar", Color.cyan, 10, 0);
+            super("TestCar", Color.cyan, 10, 0, Math.PI / 5);
         }
 
         @Override
@@ -96,27 +96,15 @@ class CarTest {
     @Test
     void testTurning() {
         assertEquals(0, car.getAngle(), 0.01);
-        car.turnLeft();
-        assertEquals(Math.PI / 8, car.getAngle(), 0.01);
-        car.turnLeft();
-        assertEquals(Math.PI / 4, car.getAngle(), 0.01);
-        car.turnLeft();
-        assertEquals(Math.PI * 3 / 8, car.getAngle(), 0.01);
-        car.turnLeft();
-        assertEquals(Math.PI / 2, car.getAngle(), 0.01);
-        for (int i = 0; i < 4; i++) car.turnLeft();
-        assertEquals(Math.PI, car.getAngle(), 0.01);
-        for (int i = 0; i < 8; i++) car.turnLeft();
-        assertEquals(0, car.getAngle(), 0.01);
+        for (int i = 0; i < 1000; i++) {
+            car.turnLeft();
+            assertEquals(Car.normalizeAngle(car.getRotationSpeed() * (i+1)), car.getAngle(), 0.01);
+        }
 
-        car.turnRight();
-        assertEquals((2.0 - (1.0 / 8.0)) * Math.PI, car.getAngle(), 0.01);
-        for (int i = 0; i < 3; i++) car.turnRight();
-        assertEquals((2.0 - (4.0 / 8.0)) * Math.PI, car.getAngle(), 0.01);
-        for (int i = 0; i < 4; i++) car.turnRight();
-        assertEquals(Math.PI, car.getAngle(), 0.01);
-        for (int i = 0; i < 8; i++) car.turnRight();
-        assertEquals(0, car.getAngle(), 0.01);
+        for (int i = 0; i < 2000; i++) {
+            car.turnRight();
+            assertEquals(Car.normalizeAngle(car.getRotationSpeed() * (1000 - i - 1)), car.getAngle(), 0.01);
+        }
     }
 
     @Test
@@ -131,14 +119,14 @@ class CarTest {
 
         for (int i = 0; i < 2; i++) car.turnLeft();
         car.move();
-        assertEquals(1.71, car.getPosition().x, 0.01);
-        assertEquals(0.71, car.getPosition().y, 0.01);
+        assertEquals(1.31, car.getPosition().x, 0.01);
+        assertEquals(0.95, car.getPosition().y, 0.01);
 
         for (int i = 0; i < 4; i++) car.turnRight();
         car.gas(1);
         car.move();
-        assertEquals(3.12, car.getPosition().x, 0.01);
-        assertEquals(-0.71, car.getPosition().y, 0.01);
+        assertEquals(1.93, car.getPosition().x, 0.01);
+        assertEquals(-0.95, car.getPosition().y, 0.01);
     }
 
     @Test

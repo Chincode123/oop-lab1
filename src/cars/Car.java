@@ -1,40 +1,20 @@
 package cars;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Abstract representation of a Car that provides basic car descriptors and basic movement logic
  */
 public abstract class Car implements Movable {
-    /**
-     * A 2D-position represented by a set of x and y coordinates
-     */
-    public static final class Position {
-        /**
-         * Position-coordinate along the x-axis
-         */
-        public double x;
-
-        /**
-         * Position-coordinate along the y-axis
-         */
-        public double y;
-
-        /**
-         * Creates a new position-object with the coordinates (0, 0)
-         */
-        public Position() {
-            x = 0;
-            y = 0;
-        }
-    }
 
     private final int nrDoors;
     private final String modelName;
-    private final Position position;
+    private final Point2D.Double position;
     private final double enginePower;
 
     private double currentSpeed;
     private double angle;
+    private final double rotationSpeed;
     private Color color;
 
     /**
@@ -44,12 +24,13 @@ public abstract class Car implements Movable {
      * @param enginePower Power of the engine
      * @param nrDoors Number of doors on the car
      */
-    public Car(String modelName, Color color, double enginePower, int nrDoors) {
+    public Car(String modelName, Color color, double enginePower, int nrDoors, double rotationSpeed) {
         this.modelName = modelName;
         this.color = color;
         this.enginePower = enginePower;
         this.nrDoors = nrDoors;
-        this.position = new Position();
+        this.position = new Point2D.Double(0, 0);
+        this.rotationSpeed = rotationSpeed;
         stopEngine();
     }
 
@@ -68,7 +49,7 @@ public abstract class Car implements Movable {
      * @param angle angle to normalize
      * @return normalized angle
      */
-    private double normalizeAngle(double angle) {
+    public static double normalizeAngle(double angle) {
         while (angle >= 2 * Math.PI) angle -= 2 * Math.PI;
         while (angle < 0) angle += 2 * Math.PI;
         if (angle >= 2 * Math.PI - 0.01) angle = 0;
@@ -79,7 +60,7 @@ public abstract class Car implements Movable {
      * Turns the car PI/8 radians to the left
      */
     public void turnLeft() {
-        angle += Math.PI / 8;
+        angle += rotationSpeed;
         angle = normalizeAngle(angle);
     }
 
@@ -87,7 +68,7 @@ public abstract class Car implements Movable {
      * Turns the car PI/8 radians to the right
      */
     public void turnRight() {
-        angle -= Math.PI / 8;
+        angle -= rotationSpeed;
         angle = normalizeAngle(angle);
     }
 
@@ -103,8 +84,16 @@ public abstract class Car implements Movable {
      * Gets the current position of the car
      * @return position of the car
      */
-    public Position getPosition() {
+    public Point2D.Double getPosition() {
         return position;
+    }
+
+    /**
+     * Gets the current rotation speed of the car
+     * @return rotation speed of the car
+     */
+    public double getRotationSpeed() {
+        return rotationSpeed;
     }
 
     /**
