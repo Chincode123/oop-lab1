@@ -23,6 +23,7 @@ public abstract class Car implements Movable {
      * @param color Color of the car
      * @param enginePower Power of the engine
      * @param nrDoors Number of doors on the car
+     * @param rotationSpeed Angle the car turns by when {@link #turnLeft()} or {@link #turnRight()} is called
      */
     public Car(String modelName, Color color, double enginePower, int nrDoors, double rotationSpeed) {
         this.modelName = modelName;
