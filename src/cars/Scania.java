@@ -29,8 +29,11 @@ public class Scania extends Car {
     /**
      * Instantiates a new Scania.
      */
+    public Scania(int x, int y){
+        super("Scania", Color.red, 250, 2, Math.PI / 8, 100, 300, x, y);
+    }
     public Scania(){
-        super("Scania", Color.red, 250, 2, Math.PI / 8, 100, 300);
+        this(0, 0);
     }
 
     /**

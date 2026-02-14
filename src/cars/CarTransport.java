@@ -20,8 +20,11 @@ public class CarTransport extends Car implements CarStorage<Car> {
     /**
      * Creates a Car of model <em>CarTransport</em>, of color <em>Color.red</em>, with <em>250</em> engine-power, and <em>2</em> doors
      */
-    public CarTransport() {
-        super("CarTransport", Color.red, 250, 2, Math.PI / 10, 100, 300);
+    public CarTransport(int x, int y) {
+        super("CarTransport", Color.red, 250, 2, Math.PI / 10, 100, 300, 0, 0);
+    }
+    public CarTransport(){
+        this(0, 0);
     }
 
     /**
@@ -29,6 +32,9 @@ public class CarTransport extends Car implements CarStorage<Car> {
      * @param car The car to load
      */
     public void load(Car car) {
+        if(car == this)
+            throw new RuntimeException("Car can't load itself");
+
         if(car.getWidth() >= getWidth() || bedCarDepth + car.getDepth() >= getDepth())
             throw new RuntimeException("Car does not fit on bed");
 

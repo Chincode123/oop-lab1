@@ -17,9 +17,12 @@ public class Saab95 extends Car{
     /**
      * Instantiates a new <em>red</em> Saab95 with <em>two</em> doors, an engine power of <em>125</em>, and <em>disabled</em> turbo
      */
-    public Saab95(){
-        super("Saab95", Color.red, 125, 2, Math.PI / 8, 40, 40);
+    public Saab95(int x, int y){
+        super("Saab95", Color.red, 125, 2, Math.PI / 8, 40, 40, x, y);
         turboOn = false;
+    }
+    public Saab95(){
+        this(0, 0);
     }
 
     /**
