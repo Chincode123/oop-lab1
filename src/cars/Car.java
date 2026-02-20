@@ -28,13 +28,14 @@ public abstract class Car implements Movable {
      * @param color Color of the car
      * @param enginePower Power of the engine
      * @param nrDoors Number of doors on the car
+     * @param rotationSpeed Angle the car turns by when {@link #turnLeft()} or {@link #turnRight()} is called
      */
-    public Car(String modelName, Color color, double enginePower, int nrDoors, double rotationSpeed, double width, double depth) {
+    public Car(String modelName, Color color, double enginePower, int nrDoors, double rotationSpeed, double width, double depth, int x, int y) {
         this.modelName = modelName;
         this.color = color;
         this.enginePower = enginePower;
         this.nrDoors = nrDoors;
-        this.position = new Point2D.Double(0, 0);
+        this.position = new Point2D.Double(x, y);
         this.rotationSpeed = rotationSpeed;
         this.width = width;
         this.depth = depth;
@@ -83,6 +84,14 @@ public abstract class Car implements Movable {
         while (angle < 0) angle += 2 * Math.PI;
         if (angle >= 2 * Math.PI - 0.01) angle = 0;
         return angle;
+    }
+
+    /**
+     * Turns the car #rotationSpeed * amount radians to the left or right
+     */
+    public void turn(double amount) {
+        angle += Math.clamp(amount, -1, 1) * rotationSpeed;
+        angle = normalizeAngle(angle);
     }
 
     /**

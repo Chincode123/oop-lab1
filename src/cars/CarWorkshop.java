@@ -9,9 +9,13 @@ public class CarWorkshop<T extends Car> implements Positionable, CarStorage<T> {
 
     private final ArrayList<T> cars = new ArrayList<>();
 
-    public CarWorkshop(int maxCars) {
+    public CarWorkshop(int maxCars, int x, int y) {
         this.maxCars = maxCars;
-        this.position = new Point2D.Double(0, 0);
+        this.position = new Point2D.Double(x, y);
+    }
+
+    public CarWorkshop(int maxCars) {
+        this(maxCars, 0, 0);
     }
 
     public int getMaxCars() {
@@ -21,6 +25,10 @@ public class CarWorkshop<T extends Car> implements Positionable, CarStorage<T> {
     @Override
     public Point2D getPosition() {
         return position;
+    }
+
+    public boolean isLoaded(T car) {
+        return cars.contains(car);
     }
 
     @Override

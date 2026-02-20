@@ -37,6 +37,12 @@ public class CarTransportTest {
     }
 
     @Test
+    void testLoadItself() {
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> carTransport.load(carTransport));
+        assertEquals("Car can't load itself", exception.getMessage());
+    }
+
+    @Test
     void testMultipleCarsExceedingDepth() {
         Car car1 = new Volvo240() {
             @Override
