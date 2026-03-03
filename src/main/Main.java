@@ -8,7 +8,9 @@ import java.awt.*;
 
 public class Main {
      public static void main(String[] args) {
-        App app = new App();
+         // 50 hz corresponds to 20 updates per second.
+         final int updateRate = 50;
+         App app = new App(updateRate);
 
         app.addCar(DrawableCarFactory.createDrawableVolvo240(new Point(0, 0)));
         app.addCar(DrawableCarFactory.createDrawableSaab95(new Point(0, 100)));

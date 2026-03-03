@@ -1,6 +1,7 @@
 package Simulation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,16 +14,18 @@ public class App {
 
     private Timer timer;
 
-    public App() {
-        controller = new CarController();
+    public App(int updateRate) {
+        int X = 800;
+        int Y = 800;
 
-        view = new DrawPanel();
+        controller = new CarController(X, Y);
 
-        input = new CarView();
+        view = new DrawPanel(X, Y - 240);
 
-        // 50 hz corresponds to 20 updates per second.
-        final int initialTimerDelay = 50;
-        setTimerDelay(initialTimerDelay);
+        input = new CarView(controller);
+        input.initComponents("Car simulation (1.0)++", view, X, Y);
+
+        setTimerDelay(updateRate);
     }
 
     public void run() {
@@ -31,11 +34,13 @@ public class App {
     }
 
     public void addCar(DrawableCar car) {
-
+        controller.addCar(car);
+        view.addDrawable(car);
     }
 
     public void addWorkshop(DrawableCarWorkshop workshop) {
-
+        controller.addWorkshop(workshop);
+        view.addDrawable(workshop);
     }
 
     private void setTimerDelay(int delay) {
@@ -44,8 +49,8 @@ public class App {
 
     private class Update implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            input.update();
-            view.update();
+            controller.update();
+            view.repaint();
         }
     }
 }
