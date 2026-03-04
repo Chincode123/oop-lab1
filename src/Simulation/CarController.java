@@ -1,8 +1,9 @@
 package Simulation;
 
-import cars.Car;
+import cars.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CarController {
     private final ArrayList<DrawableCar> cars = new ArrayList<>();
@@ -26,7 +27,13 @@ public class CarController {
 
     public void gas(double gasAmount) {
         for (DrawableCar car : cars) {
-            car.getCar().gas(gasAmount);
+            try {
+                car.getCar().gas(gasAmount);
+            } catch (RuntimeException e) {
+                if (!("can't gas with non-zero bed angle".equals(e.getMessage()))) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -49,19 +56,31 @@ public class CarController {
     }
 
     public void raiseBed() {
-
+        for (DrawableCar car : cars) {
+            if(car.getCar() instanceof Scania)
+                ((Scania) car.getCar()).raiseBed(1);
+        }
     }
 
     public void lowerBed() {
-
+        for (DrawableCar car : cars) {
+            if(car.getCar() instanceof Scania)
+                ((Scania) car.getCar()).lowerBed(1);
+        }
     }
 
     public void turboOn() {
-
+        for (DrawableCar car : cars) {
+            if(car.getCar() instanceof Saab95)
+                ((Saab95) car.getCar()).setTurboOn();
+        }
     }
 
     public void turboOff() {
-
+        for (DrawableCar car : cars) {
+            if(car.getCar() instanceof Saab95)
+                ((Saab95) car.getCar()).setTurboOff();
+        }
     }
 
     public void update() {
@@ -83,6 +102,55 @@ public class CarController {
                 }
 
                 car.getCar().turn(remainder);
+            }
+
+            final int workshop_half_size = 50;
+            for (DrawableCarWorkshop workshop : workshops) {
+                if (car.getPosition().distance(workshop.getPosition()) < workshop_half_size) {
+                    try {
+                        Volvo240 tCar = (Volvo240)car.getCar();
+                        CarWorkshop<Volvo240> tWorkshop = (CarWorkshop<Volvo240>) workshop.getCarWorkshop();
+                        if (!tWorkshop.isLoaded(tCar)) {
+                            try {
+                                tWorkshop.load(tCar);
+                            } catch(RuntimeException error) {
+                                error.printStackTrace();
+                            }
+                        }
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        Saab95 tCar = (Saab95) car.getCar();
+                        CarWorkshop<Saab95> tWorkshop = (CarWorkshop<Saab95>) workshop.getCarWorkshop();
+                        if (!tWorkshop.isLoaded(tCar)) {
+                            try {
+                                tWorkshop.load(tCar);
+                            } catch(RuntimeException error) {
+                                error.printStackTrace();
+                            }
+                        }
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        Scania tCar = (Scania) car.getCar();
+                        CarWorkshop<Scania> tWorkshop = (CarWorkshop<Scania>) workshop.getCarWorkshop();
+                        if (!tWorkshop.isLoaded(tCar)) {
+                            try {
+                                tWorkshop.load(tCar);
+                            } catch(RuntimeException error) {
+                                error.printStackTrace();
+                            }
+                        }
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

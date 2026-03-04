@@ -23,7 +23,7 @@ public class App {
         view = new DrawPanel(X, Y - 240);
 
         input = new CarView(controller);
-        input.initComponents("Car simulation (1.0)++", view, X, Y);
+        input.initComponents("Car simulation ++(1.0)", view, X, Y);
 
         setTimerDelay(updateRate);
     }
