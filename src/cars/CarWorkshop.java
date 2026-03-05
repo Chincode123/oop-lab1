@@ -31,6 +31,10 @@ public class CarWorkshop<T extends Car> implements Positionable, CarStorage<T> {
         return cars.contains(car);
     }
 
+    public boolean isFull() {
+        return cars.size() >= maxCars;
+    }
+
     @Override
     public void load(T car) {
         if(cars.size() >= maxCars)

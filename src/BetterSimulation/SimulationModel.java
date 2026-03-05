@@ -2,8 +2,10 @@ package BetterSimulation;
 
 import cars.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 public class SimulationModel {
     private final ArrayList<DrawableCar> cars = new ArrayList<>();
@@ -14,9 +16,12 @@ public class SimulationModel {
 
     private final int screenWidth, screenHeight;
 
-    public SimulationModel(int screenWidth, int screenHeight) {
+    private final int maxCars;
+
+    public SimulationModel(int screenWidth, int screenHeight, int maxCars) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.maxCars = maxCars;
     }
 
     public void addCar(DrawableCar car) {
@@ -103,11 +108,10 @@ public class SimulationModel {
             }
 
 
-
             final int workshop_half_size = 50;
             for (DrawableCarWorkshop workshop : workshops) {
                 if (car.getPosition().distance(workshop.getPosition()) < workshop_half_size) {
-                    if (!workshop.getCarWorkshop().isLoaded(car.getCar())) {
+                    if (!workshop.getCarWorkshop().isLoaded(car.getCar()) && !workshop.getCarWorkshop().isFull()) {
                         workshop.getCarWorkshop().tryLoad(car.getCar());
                     }
                 }
@@ -133,5 +137,31 @@ public class SimulationModel {
         for (SpriteHandler spriteHandler : spriteHandlers) {
             spriteHandler.updateSprite(drawable);
         }
+    }
+
+    public void createRandomCar() {
+        if (cars.size() > maxCars) return;
+
+        Random random = new Random();
+
+        switch (random.nextInt(3)) {
+            case 0:
+                addCar(DrawableCarFactory.createDrawableSaab95(new Point(random.nextInt(screenWidth - 100), random.nextInt(screenHeight - 300))));
+                break;
+            case 1:
+                addCar(DrawableCarFactory.createDrawableScania(new Point(random.nextInt(screenWidth - 100), random.nextInt(screenHeight - 300))));
+                break;
+            case 2:
+                addCar(DrawableCarFactory.createDrawableVolvo240(new Point(random.nextInt(screenWidth - 100), random.nextInt(screenHeight - 300))));
+                break;
+        };
+    }
+
+    public void removeRandomCar() {
+        if (cars.size() <= 0) return;
+
+        Random random = new Random();
+
+        cars.remove(random.nextInt(cars.size()));
     }
 }

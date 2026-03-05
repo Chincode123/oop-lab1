@@ -23,7 +23,10 @@ public class Buttons {
     private final JButton startButton = new JButton("Start all cars");
     private final JButton stopButton = new JButton("Stop all cars");
 
-    public void attatch(JPanel controlPanel) {
+    private final JButton addCarButton = new JButton("Add random car");
+    private final JButton removeCarButton = new JButton("Remove random car");
+
+    public void attach(JPanel controlPanel) {
         SpinnerModel spinnerModel =
                 new SpinnerNumberModel(0, //initial value
                         0, //min
@@ -52,20 +55,31 @@ public class Buttons {
         gridButtons.add(brakeButton, 3);
         gridButtons.add(turboOffButton, 4);
         gridButtons.add(lowerBedButton, 5);
-        gridButtons.setPreferredSize(new Dimension((controlPanel.getPreferredSize().width / 2) + 4, 200));
+        gridButtons.setPreferredSize(new Dimension((controlPanel.getPreferredSize().width / 4) + 4, 200));
         controlPanel.add(gridButtons);
 
 
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/5-15,200));
+        startButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/6-15,200));
         controlPanel.add(startButton);
 
 
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/5-15,200));
+        stopButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/6-15,200));
         controlPanel.add(stopButton);
+
+
+        addCarButton.setBackground(Color.green);
+        addCarButton.setForeground(Color.black);
+        addCarButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/6-15,200));
+        controlPanel.add(addCarButton);
+
+        removeCarButton.setBackground(Color.red);
+        removeCarButton.setForeground(Color.black);
+        removeCarButton.setPreferredSize(new Dimension(controlPanel.getPreferredSize().width/6-15,200));
+        controlPanel.add(removeCarButton);
     }
 
     public void implement(SimulationModel model) {
@@ -124,6 +138,20 @@ public class Buttons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 model.stop();
+            }
+        });
+
+        addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.createRandomCar();
+            }
+        });
+
+        removeCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.removeRandomCar();
             }
         });
     }

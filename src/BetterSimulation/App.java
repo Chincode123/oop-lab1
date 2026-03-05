@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class App {
     private final SimulationModel simulation;
@@ -13,7 +14,8 @@ public class App {
     private final Buttons input = new Buttons();
 
     public App(int updateRate, int windowWidth, int windowHeight) {
-        simulation = new SimulationModel(windowWidth, windowHeight);
+        final int maxCars = 10;
+        simulation = new SimulationModel(windowWidth, windowHeight, maxCars);
         input.implement(simulation);
 
         view = new SimulationView("Car simulation ++(++(1.0))", windowWidth, windowHeight);

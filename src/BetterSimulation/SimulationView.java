@@ -38,7 +38,7 @@ public class SimulationView extends JFrame {
     }
 
     public void attachButtons(Buttons buttons) {
-        buttons.attatch(controlPanel);
+        buttons.attach(controlPanel);
     }
 
     public void display() {
