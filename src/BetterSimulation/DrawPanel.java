@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class DrawPanel extends JPanel {
-    private final ArrayList<DrawablePositionable> panels = new ArrayList<>();
+public class DrawPanel extends JPanel implements SpriteHandler {
+    private ArrayList<DrawablePositionable> panels = new ArrayList<>();
 
     public void addDrawable(DrawablePositionable drawable) {
         panels.add(drawable);
@@ -17,5 +17,15 @@ public class DrawPanel extends JPanel {
         for (DrawablePositionable panel : panels) {
             g.drawImage(panel.getImage(), (int)panel.getPosition().getX(), (int)panel.getPosition().getY(), null);
         }
+        refresh();
+    }
+
+    @Override
+    public void updateSprite(DrawablePositionable drawable) {
+        panels.add(drawable);
+    }
+
+    public void refresh() {
+        panels = new ArrayList<>();
     }
 }

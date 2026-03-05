@@ -33,8 +33,8 @@ public class SimulationView extends JFrame {
         drawPanel.repaint();
     }
 
-    public void addDrawable(DrawablePositionable drawable) {
-        drawPanel.addDrawable(drawable);
+    public SpriteHandler getSpriteHandler() {
+        return drawPanel;
     }
 
     public void attachButtons(Buttons buttons) {

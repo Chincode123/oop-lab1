@@ -5,31 +5,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class App {
-    private final SimulationModel controller;
+    private final SimulationModel simulation;
 
     private final SimulationView view;
 
     private final Buttons input = new Buttons();
 
     public App(int updateRate, int windowWidth, int windowHeight) {
-        controller = new SimulationModel(windowWidth, windowHeight);
-        input.implement(controller);
+        simulation = new SimulationModel(windowWidth, windowHeight);
+        input.implement(simulation);
 
         view = new SimulationView("Car simulation ++(++(1.0))", windowWidth, windowHeight);
         view.attachButtons(input);
         view.display();
 
+        simulation.addSpriteHandler(view.getSpriteHandler());
+
         runLoop(updateRate);
     }
 
     public void addCar(DrawableCar car) {
-        controller.addCar(car);
-        view.addDrawable(car);
+        simulation.addCar(car);
     }
 
     public void addWorkshop(DrawableCarWorkshop workshop) {
-        controller.addWorkshop(workshop);
-        view.addDrawable(workshop);
+        simulation.addWorkshop(workshop);
     }
 
     private void runLoop(int delay) {
@@ -39,8 +39,9 @@ public class App {
 
     private class Update implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            controller.update();
+            simulation.update();
             view.update();
+            System.out.println();
         }
     }
 }

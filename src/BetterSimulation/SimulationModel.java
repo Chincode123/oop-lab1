@@ -3,11 +3,14 @@ package BetterSimulation;
 import cars.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class SimulationModel {
     private final ArrayList<DrawableCar> cars = new ArrayList<>();
 
     private final ArrayList<DrawableCarWorkshop> workshops = new ArrayList<>();
+
+    private final HashSet<SpriteHandler> spriteHandlers = new HashSet<>();
 
     private final int screenWidth, screenHeight;
 
@@ -151,6 +154,26 @@ public class SimulationModel {
                     }
                 }
             }
+
+            notifyHandlers(car);
+        }
+
+        for (DrawableCarWorkshop workshop : workshops) {
+            notifyHandlers(workshop);
+        }
+    }
+
+    public void addSpriteHandler(SpriteHandler handler) {
+        spriteHandlers.add(handler);
+    }
+
+    public void removeSpriteHandler(SpriteHandler handler) {
+        spriteHandlers.remove(handler);
+    }
+
+    private void notifyHandlers(DrawablePositionable drawable) {
+        for (SpriteHandler spriteHandler : spriteHandlers) {
+            spriteHandler.updateSprite(drawable);
         }
     }
 }
