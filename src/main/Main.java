@@ -12,12 +12,12 @@ public class Main {
          final int updateRate = 50;
          App app = new App(updateRate);
 
-        app.addCar(DrawableCarFactory.createDrawableVolvo240(new Point(0, 0)));
-        app.addCar(DrawableCarFactory.createDrawableSaab95(new Point(0, 100)));
-        app.addCar(DrawableCarFactory.createDrawableScania(new Point(0, 200)));
+         app.addCar(DrawableCarFactory.createDrawableVolvo240(new Point(0, 0)));
+         app.addCar(DrawableCarFactory.createDrawableSaab95(new Point(0, 100)));
+         app.addCar(DrawableCarFactory.createDrawableScania(new Point(0, 200)));
 
-        app.addWorkshop(DrawableCarWorkshopFactory.createDrawableVolvo240Workshop(new Point(300, 0)));
+         app.addWorkshop(DrawableCarWorkshopFactory.createDrawableVolvo240Workshop(new Point(300, 0)));
 
-        app.run();
+         app.run();
     }
 }

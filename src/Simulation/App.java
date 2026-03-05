@@ -29,7 +29,6 @@ public class App {
     }
 
     public void run() {
-        timer.start();
         while (true);
     }
 
@@ -45,6 +44,7 @@ public class App {
 
     private void setTimerDelay(int delay) {
         timer = new Timer(delay, new Update());
+        timer.start();
     }
 
     private class Update implements ActionListener {
