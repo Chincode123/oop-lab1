@@ -28,8 +28,4 @@ public class SimulationWorkshop<T extends Car> {
         }
         return false;
     }
-
-    public boolean isFull() {
-        return workshop.isFull();
-    }
 }

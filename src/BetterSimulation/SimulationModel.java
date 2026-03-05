@@ -111,8 +111,14 @@ public class SimulationModel {
             final int workshop_half_size = 50;
             for (DrawableCarWorkshop workshop : workshops) {
                 if (car.getPosition().distance(workshop.getPosition()) < workshop_half_size) {
-                    if (!workshop.getCarWorkshop().isLoaded(car.getCar()) && !workshop.getCarWorkshop().isFull()) {
-                        workshop.getCarWorkshop().tryLoad(car.getCar());
+                    if (!workshop.getCarWorkshop().isLoaded(car.getCar())) {
+                        try {
+                            workshop.getCarWorkshop().tryLoad(car.getCar());
+                        } catch (RuntimeException e) {
+                            if (!("CarWorkshop full".equals(e.getMessage()))) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
                 }
             }
