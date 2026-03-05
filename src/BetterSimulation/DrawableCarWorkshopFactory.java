@@ -23,6 +23,6 @@ public class DrawableCarWorkshopFactory {
     }
 
     public static DrawableCarWorkshop createDrawableVolvo240Workshop(Point2D point) {
-        return new DrawableCarWorkshop(new CarWorkshop<Volvo240>(1, (int)point.getX(), (int)point.getY()), getVolvoBrandImage());
+        return new DrawableCarWorkshop(new CarWorkshop<Volvo240>(1, (int)point.getX(), (int)point.getY()), Volvo240.class, getVolvoBrandImage());
     }
 }

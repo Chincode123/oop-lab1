@@ -7,17 +7,21 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class DrawableCar implements DrawablePositionable {
-    private final Car car;
+    private final SimulationCar car;
 
     private final BufferedImage image;
 
     public DrawableCar(Car car, BufferedImage image) {
-        this.car = car;
+        this.car = new SimulationCar(car, car.getClass());
         this.image = image;
     }
 
-    public Car getCar() {
+    public SimulationCar getCar() {
         return car;
+    }
+
+    public Car getBaseCar() {
+        return car.getCar();
     }
 
     @Override
@@ -27,6 +31,6 @@ public class DrawableCar implements DrawablePositionable {
 
     @Override
     public Point2D getPosition() {
-        return car.getPosition();
+        return car.getCar().getPosition();
     }
 }

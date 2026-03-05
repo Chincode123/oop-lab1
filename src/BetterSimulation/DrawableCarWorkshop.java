@@ -8,22 +8,22 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class DrawableCarWorkshop implements DrawablePositionable {
-    private final CarWorkshop<? extends Car> workshop;
+    private final SimulationWorkshop workshop;
 
     private final BufferedImage image;
 
-    public DrawableCarWorkshop(CarWorkshop<? extends Car> workshop, BufferedImage image) {
-        this.workshop = workshop;
+    public DrawableCarWorkshop(CarWorkshop<? extends Car> workshop, Class<?> workshopType, BufferedImage image) {
+        this.workshop = new SimulationWorkshop(workshop, workshopType);
         this.image = image;
     }
 
-    public CarWorkshop<? extends Car> getCarWorkshop() {
+    public SimulationWorkshop getCarWorkshop() {
         return workshop;
     }
 
     @Override
     public Point2D getPosition() {
-        return workshop.getPosition();
+        return workshop.getWorkshop().getPosition();
     }
 
     @Override

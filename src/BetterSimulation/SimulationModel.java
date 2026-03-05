@@ -30,7 +30,7 @@ public class SimulationModel {
     public void gas(double gasAmount) {
         for (DrawableCar car : cars) {
             try {
-                car.getCar().gas(gasAmount);
+                car.getBaseCar().gas(gasAmount);
             } catch (RuntimeException e) {
                 if (!("can't gas with non-zero bed angle".equals(e.getMessage()))) {
                     throw new RuntimeException(e);
@@ -41,116 +41,74 @@ public class SimulationModel {
 
     public void brake(double brakeAmount) {
         for (DrawableCar car : cars) {
-            car.getCar().brake(brakeAmount);
+            car.getBaseCar().brake(brakeAmount);
         }
     }
 
     public void start() {
         for (DrawableCar car : cars) {
-            car.getCar().startEngine();
+            car.getBaseCar().startEngine();
         }
     }
 
     public void stop() {
         for (DrawableCar car : cars) {
-            car.getCar().stopEngine();
+            car.getBaseCar().stopEngine();
         }
     }
 
     public void raiseBed() {
         for (DrawableCar car : cars) {
-            if(car.getCar() instanceof Scania)
-                ((Scania) car.getCar()).raiseBed(1);
+            car.getCar().tryRaiseBed(1);
         }
     }
 
     public void lowerBed() {
         for (DrawableCar car : cars) {
-            if(car.getCar() instanceof Scania)
-                ((Scania) car.getCar()).lowerBed(1);
+            car.getCar().tryLowerBed(1);
         }
     }
 
     public void turboOn() {
         for (DrawableCar car : cars) {
-            if(car.getCar() instanceof Saab95)
-                ((Saab95) car.getCar()).setTurboOn();
+            car.getCar().tryTurboOn();
         }
     }
 
     public void turboOff() {
         for (DrawableCar car : cars) {
-            if(car.getCar() instanceof Saab95)
-                ((Saab95) car.getCar()).setTurboOff();
+            car.getCar().tryTurboOff();
         }
     }
 
     public void update() {
         for (DrawableCar car : cars) {
-            car.getCar().move();
+            car.getBaseCar().move();
 
             int x = (int) Math.round(car.getPosition().getX());
             int y = (int) Math.round(car.getPosition().getY());
 
             if(x < 0 || x > screenWidth - 100 || y < 0 || y > screenHeight - 60) {
                 // turn the car 180 degrees
-                double totalAmount = Math.PI / car.getCar().getRotationSpeed();
+                double totalAmount = Math.PI / car.getBaseCar().getRotationSpeed();
 
                 int fullSteps = (int)Math.floor(totalAmount);
                 double remainder = totalAmount - fullSteps;
 
                 for (int i = 0; i < fullSteps; i++) {
-                    car.getCar().turn(1);
+                    car.getBaseCar().turn(1);
                 }
 
-                car.getCar().turn(remainder);
+                car.getBaseCar().turn(remainder);
             }
+
+
 
             final int workshop_half_size = 50;
             for (DrawableCarWorkshop workshop : workshops) {
                 if (car.getPosition().distance(workshop.getPosition()) < workshop_half_size) {
-                    try {
-                        Volvo240 tCar = (Volvo240)car.getCar();
-                        CarWorkshop<Volvo240> tWorkshop = (CarWorkshop<Volvo240>) workshop.getCarWorkshop();
-                        if (!tWorkshop.isLoaded(tCar)) {
-                            try {
-                                tWorkshop.load(tCar);
-                            } catch(RuntimeException error) {
-                                error.printStackTrace();
-                            }
-                        }
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    try {
-                        Saab95 tCar = (Saab95) car.getCar();
-                        CarWorkshop<Saab95> tWorkshop = (CarWorkshop<Saab95>) workshop.getCarWorkshop();
-                        if (!tWorkshop.isLoaded(tCar)) {
-                            try {
-                                tWorkshop.load(tCar);
-                            } catch(RuntimeException error) {
-                                error.printStackTrace();
-                            }
-                        }
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    try {
-                        Scania tCar = (Scania) car.getCar();
-                        CarWorkshop<Scania> tWorkshop = (CarWorkshop<Scania>) workshop.getCarWorkshop();
-                        if (!tWorkshop.isLoaded(tCar)) {
-                            try {
-                                tWorkshop.load(tCar);
-                            } catch(RuntimeException error) {
-                                error.printStackTrace();
-                            }
-                        }
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
+                    if (!workshop.getCarWorkshop().isLoaded(car.getCar())) {
+                        workshop.getCarWorkshop().tryLoad(car.getCar());
                     }
                 }
             }
