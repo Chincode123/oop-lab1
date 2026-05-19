@@ -3,9 +3,11 @@ package BetterSimulation;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DrawPanel extends JPanel implements SpriteHandler {
-    private ArrayList<DrawablePositionable> panels = new ArrayList<>();
+    private Set<DrawablePositionable> panels = new HashSet<>();
 
     public void addDrawable(DrawablePositionable drawable) {
         panels.add(drawable);
@@ -17,15 +19,15 @@ public class DrawPanel extends JPanel implements SpriteHandler {
         for (DrawablePositionable panel : panels) {
             g.drawImage(panel.getImage(), (int)panel.getPosition().getX(), (int)panel.getPosition().getY(), null);
         }
-        refresh();
     }
 
     @Override
-    public void updateSprite(DrawablePositionable drawable) {
+    public void addSprite(DrawablePositionable drawable) {
         panels.add(drawable);
     }
 
-    public void refresh() {
-        panels = new ArrayList<>();
+    @Override
+    public void removeSprite(DrawablePositionable drawable) {
+        panels.remove(drawable);
     }
 }

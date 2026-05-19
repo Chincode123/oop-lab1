@@ -26,10 +26,12 @@ public class SimulationModel {
 
     public void addCar(DrawableCar car) {
         cars.add(car);
+        addToHandler(car);
     }
 
     public void addWorkshop(DrawableCarWorkshop workshop) {
         workshops.add(workshop);
+        addToHandler(workshop);
     }
 
     public void gas(double gasAmount) {
@@ -122,12 +124,6 @@ public class SimulationModel {
                     }
                 }
             }
-
-            notifyHandlers(car);
-        }
-
-        for (DrawableCarWorkshop workshop : workshops) {
-            notifyHandlers(workshop);
         }
     }
 
@@ -139,9 +135,15 @@ public class SimulationModel {
         spriteHandlers.remove(handler);
     }
 
-    private void notifyHandlers(DrawablePositionable drawable) {
+    private void addToHandler(DrawablePositionable drawable) {
         for (SpriteHandler spriteHandler : spriteHandlers) {
-            spriteHandler.updateSprite(drawable);
+            spriteHandler.addSprite(drawable);
+        }
+    }
+
+    private void removeFromHandler(DrawablePositionable drawable) {
+        for (SpriteHandler spriteHandler : spriteHandlers) {
+            spriteHandler.removeSprite(drawable);
         }
     }
 
@@ -168,6 +170,21 @@ public class SimulationModel {
 
         Random random = new Random();
 
-        cars.remove(random.nextInt(cars.size()));
+        int carIndex = random.nextInt(cars.size());
+        removeCarAtIndex(carIndex);
+    }
+
+    private void removeCarAtIndex(int index) {
+        if (index >= cars.size()) return;
+
+        removeFromHandler(cars.get(index));
+        cars.remove(index);
+    }
+
+    private void removeWorkshopAtIndex(int index) {
+        if (index >= workshops.size()) return;
+
+        removeFromHandler(workshops.get(index));
+        workshops.remove(index);
     }
 }
